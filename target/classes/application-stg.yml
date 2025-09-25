@@ -1,0 +1,66 @@
+spring:
+  config:
+    activate:
+      on-profile: stg
+  application:
+    name: S3-Bucket
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 10000MB
+      max-file-size: 6000MB
+server:
+  port: 8084
+  tomcat:
+    uri-encoding: UTF-8
+jwt: # Store token in a Volute
+  secret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+  tokenDecryptCode: kfsdSDFsdfmflks32FSDskfdskfsdSDFsdfmflks32FSDskfdskfsdSDFsdfmflks32FSDskfdskfsdSDFsdfmflks32FSDskfds
+api:
+  class:
+    s3:
+      image:
+        bucket-name: ${bucket_name}
+        access-key: ${access_key}
+        secret-key: ${secret_key}
+s3:
+  api:
+    header: /api/image
+    end-point:
+      upload: /v1/upload
+      uploadV2: /v2/upload
+      update: /v1/update
+      update-URL: http://user-service.spordee-stg.svc.cluster.local:8999/user/manage/v1/image/update
+cloud-front:
+  url: https://d29t2y8f4nn5jj.cloudfront.net
+service:
+  base:
+    url:
+      user: http://user-service.spordee-stg.svc.cluster.local:8999
+      search: http://search-engine-service.spordee-stg.svc.cluster.local:8081
+      feed: http://spordee-post-service.spordee-stg.svc.cluster.local:8093
+      reel: http://highlight-service.spordee-stg.svc.cluster.local:8087
+      trick: http://tricks-service.spordee-stg.svc.cluster.local:8086
+      images: http://highlight-image-service.spordee-stg.svc.cluster.local:8089
+  method:
+    get:
+      user: user/load/v1/get/post/count
+rekognition:
+  image-count: 5
+  video-count: 2
+  minimum:
+    confidence: 50F
+aws:
+  region: us-west-2
+  image:
+    processing:
+      url: https://lhbh0phmm2.execute-api.us-west-2.amazonaws.com
+      uri: /ImageProcessingFuction
+      auth-token: spordeeLambda@0624
+video:
+  compression:
+    timeout: 300    # Timeout in seconds (5 minutes)
+    preset: veryfast  # Compression preset (options: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow)
+logging:
+  level:
+    user-service.spordee-stg.svc.cluster.local: DEBUG
